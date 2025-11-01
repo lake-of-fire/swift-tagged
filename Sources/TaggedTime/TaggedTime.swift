@@ -1,6 +1,9 @@
-import Dispatch
 import Foundation
 import Tagged
+
+#if canImport(Dispatch)
+import Dispatch
+#endif
 
 public enum MillisecondsTag {}
 
@@ -46,10 +49,12 @@ extension Tagged where Tag == MillisecondsTag, RawValue: BinaryInteger {
     map(TimeInterval.init).timeInterval
   }
 
-  /// Converts milliseconds into `DispatchTimeInterval`.
-  public var dispatchTimeInterval: DispatchTimeInterval {
-    .milliseconds(Int(rawValue))
-  }
+  #if canImport(Dispatch)
+    /// Converts milliseconds into `DispatchTimeInterval`.
+    public var dispatchTimeInterval: DispatchTimeInterval {
+      .milliseconds(Int(rawValue))
+    }
+  #endif
 
   /// Converts milliseconds into `Date`, which is measured in seconds.
   public var date: Date {
@@ -76,10 +81,12 @@ extension Tagged where Tag == SecondsTag, RawValue: BinaryInteger {
     TimeInterval(Int64(rawValue))
   }
 
-  /// Converts seconds into `DispatchTimeInterval`.
-  public var dispatchTimeInterval: DispatchTimeInterval {
-    .seconds(Int(rawValue))
-  }
+  #if canImport(Dispatch)
+    /// Converts seconds into `DispatchTimeInterval`.
+    public var dispatchTimeInterval: DispatchTimeInterval {
+      .seconds(Int(rawValue))
+    }
+  #endif
 
   /// Converts seconds into `Date`.
   public var date: Date {
